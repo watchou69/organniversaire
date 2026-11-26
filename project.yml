@@ -1,0 +1,55 @@
+# Projet Xcode de l'app iPhone orgAnniversaire, généré par XcodeGen (https://github.com/yonaskolb/XcodeGen).
+# Codemagic exécute « xcodegen generate » puis compile : aucun Mac n'est nécessaire.
+name: OrgAnniversaire
+options:
+  bundleIdPrefix: fr.organniversaire
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    VERSIONING_SYSTEM: apple-generic
+    SWIFT_VERSION: "5.0"
+targets:
+  OrgAnniversaire:
+    type: application
+    platform: iOS
+    sources:
+      - path: OrgAnniversaire
+    scheme: {}
+    entitlements:
+      path: OrgAnniversaire/OrgAnniversaire.entitlements
+      properties:
+        aps-environment: production
+    info:
+      path: OrgAnniversaire/Info.plist
+      properties:
+        CFBundleDisplayName: orgAnniversaire
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+          UIImageName: LaunchLogo
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIBackgroundModes:
+          - remote-notification
+        UIStatusBarStyle: UIStatusBarStyleDarkContent
+        NSContactsUsageDescription: "orgAnniversaire accède à vos contacts uniquement quand vous choisissez des invités à ajouter à votre fête."
+        NSCameraUsageDescription: "orgAnniversaire utilise l'appareil photo pour ajouter une photo à l'invitation ou à l'album de la fête."
+        NSPhotoLibraryUsageDescription: "orgAnniversaire accède à vos photos pour illustrer l'invitation et partager les souvenirs de la fête."
+        NSPhotoLibraryAddUsageDescription: "orgAnniversaire enregistre dans vos photos les cartes d'invitation que vous téléchargez."
+        LSApplicationQueriesSchemes:
+          - whatsapp
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: fr.organniversaire.app
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_BITCODE: NO
+        CODE_SIGN_STYLE: Automatic

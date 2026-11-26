@@ -1,0 +1,42 @@
+# Compilation de l'app iPhone orgAnniversaire dans le cloud (Codemagic), sans Mac.
+# À chaque envoi sur la branche « main » du dépôt GitHub : projet généré, signé, compilé, envoyé sur TestFlight.
+workflows:
+  ios-testflight:
+    name: orgAnniversaire iOS → TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: orgAnniversaire ASC          # nom de la clé API App Store Connect ajoutée dans Codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: fr.organniversaire.app
+      vars:
+        APP_STORE_APPLE_ID: 6839701913                # App Store Connect › votre app › Informations › Identifiant Apple
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Installer XcodeGen
+        script: brew install xcodegen
+      - name: Générer le projet Xcode
+        script: xcodegen generate
+      - name: Préparer la signature
+        script: xcode-project use-profiles
+      - name: Numéro de version (build)
+        script: |
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo 0)
+          agvtool new-version -all $((LATEST + 1))
+      - name: Compiler l'app
+        script: xcode-project build-ipa --project OrgAnniversaire.xcodeproj --scheme OrgAnniversaire
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
